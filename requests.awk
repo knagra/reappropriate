@@ -17,11 +17,10 @@
 # possibly $(>=5) := extra lines of the body
 BEGIN {
     FS = "\t"
-    section_number = 1
 }
 
 {
-    # If it's a section head, increment the section_number and move on
+    # Section head
     if (match($0, /^@@@/)) {
         ++section_number
         next
