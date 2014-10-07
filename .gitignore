@@ -1,0 +1,11 @@
+*.txt
+*.pyc
+*~
+.#*
+*.kate-swp
+*.swp
+*.tmp
+.svn/
+*.log
+.coverage
+*.egg-info
