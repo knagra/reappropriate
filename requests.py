@@ -70,7 +70,7 @@ def process_requests_file(file_name, rtype, log_file_name):
                 if timestamp:
                     save_request(obj_dict, rtype, timestamp)
 
-def process_requests(log_file_name, food_file_name, maint_file_name):
+def process_requests(food_file_name, maint_file_name, log_file_name):
     """
     Process all request files.
     """

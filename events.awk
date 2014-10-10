@@ -1,3 +1,5 @@
+#!/usr/bin/awk -f
+
 # Project: Reappropriation
 
 # Author: Karandeep Singh Nagra
@@ -6,7 +8,7 @@
 # Process events files.  Create a Python dictionary for each entry.
 
 # To call this script, execute:
-# awk -f events.awk ../all_events.txt > events_r.txt
+# ./events.awk ../all_events.txt > events_r.txt
 
 # Set the field separator to the tab character
 # This will make the fields:
@@ -25,12 +27,10 @@ BEGIN {
         next
     }
 
-    # Ignore empty lines
     if (match($0, /^$/)) {
         next
     }
 
-    # Replace quotes with escaped quotes
     gsub(/"/, "\&quot;")
 
     # For whatever reason, tabs in the fourth entry also represent newlines.
