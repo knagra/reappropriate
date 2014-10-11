@@ -8,7 +8,7 @@ Utilities used elsewhere in this program.
 
 
 import ast
-from datetime.datetime import strptime
+from datetime import datetime
 
 
 def read_dict(line, log_file_name):
@@ -25,7 +25,7 @@ def read_dict(line, log_file_name):
                 'Read_dict failed on following line: {line}'.format(
                     line=line
                 ))
-                log_file.write('Error message: {error}'.format(error=e))
+            log_file.write('Error message: {error}'.format(error=e))
         return False
 
 def process_timestamp(string, log_file_name, fmt='datetime'):
@@ -34,12 +34,12 @@ def process_timestamp(string, log_file_name, fmt='datetime'):
     which is of format fmt.
     """
     try:
-        return strptime(string, fmt)
+        return datetime.strptime(string, fmt)
     except ValueError as e:
         with open(log_file_name, 'a') as log_file:
             log_file.write(
                 'process_timestamp failed on: {string}'.format(
                     string=string
                 ))
-                log_file.write('Error message: {error}'.format(error=e))
+            log_file.write('Error message: {error}'.format(error=e))
         return False
