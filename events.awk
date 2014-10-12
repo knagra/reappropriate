@@ -33,15 +33,19 @@ BEGIN {
 
     gsub(/^# */, "", $0)
 
+    gsub(/</, "\&lt;")
+
     gsub(/"/, "\&quot;")
 
     # For whatever reason, tabs in the fourth entry also represent newlines.
     # So, append all entries after the fourth, separated by newline characters.
     if (NF > 3) {
-        for (i = 4; i < NF; ++i) {
+        for (i = 4; i <= NF; ++i) {
             $3 = $3 "<br />" $i
         }
     }
+
+    gsub(/<br \/>$/, "")
 
     print "{'date': \"" $1 "\", 'title': \"" $2 "\", 'description': \"" $3 "\"}"
 }

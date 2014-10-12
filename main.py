@@ -12,17 +12,12 @@ Execute main Python program.
 import sys, os
 from multiprocessing import Process
 
-sys.path.append('/var/www/html/farnsworth')
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "farnsworth.settings")
 
 import ast
 from datetime import datetime
 
 import django
 from django.utils.timezone import utc
-
-from legacy import models
 
 
 def to_unicode(obj_dict):
@@ -218,6 +213,15 @@ def create_response(obj_dict, rtype, timestamp, log_file_name):
                 log_file.write('\n\n')
             return False
 
+        else:
+            response_dict = obj_dict['response']
+            return models.TeacherResponse(
+                request=request,
+                name=response_dict['name'],
+                body=response_dict['body'],
+                timestamp=timestamp,
+            )
+
     else:
         response_dict = obj_dict['response']
         return models.TeacherResponse(
@@ -237,11 +241,14 @@ def add_all_requests(requests, log_file_name, rtype):
             log_file_name,
             "%Y-%m-%d %H:%M",
         )
+
         if timestamp:
             request_object = create_request(request_dict, rtype, timestamp)
             if request_object:
                 request_objects.append(request_object)
+
     models.TeacherRequest.objects.bulk_create(request_objects)
+
     print "\tAdded {}/{} {} requests.".format(
         len(request_objects),
         len(requests),
@@ -252,19 +259,34 @@ def add_all_requests(requests, log_file_name, rtype):
 def add_all_responses(responses, log_file_name, rtype):
     """Add all responses in the list responses."""
     response_objects = []
+
     for response_dict in responses:
         timestamp = process_timestamp(
             response_dict['response'].pop('timestamp'),
             log_file_name,
             "%Y-%m-%d %H:%M",
         )
+
         if timestamp:
             response_object = create_response(
                 response_dict, rtype, timestamp, log_file_name
             )
             if response_object:
                 response_objects.append(response_object)
+
+        else:
+            with open(log_file_name, 'a') as log_file:
+                log_file.write(
+                    'Could not find process timestamp for response dict: {dict}\n'\
+                    .format(
+                        dict=response_dict
+                    )
+                )
+                log_file.write('\n\n')
+            return False
+
     models.TeacherResponse.objects.bulk_create(response_objects)
+
     print "\tAdded {}/{} {} responses.".format(
         len(response_objects),
         len(responses),
@@ -280,16 +302,22 @@ def process_requests_file(file_name, rtype, log_file_name):
     with open(file_name, 'r') as request_dicts:
         responses = []
         requests = []
+
         responses_added = 0
         requests_added = 0
+
         for line in request_dicts:
             obj_dict = read_dict(line, log_file_name)
+
             if not obj_dict:
                 continue    # read_dict failed and logged the error
+
             elif 'response' in obj_dict:
                 responses.append(obj_dict)
+
             else:
                 requests.append(obj_dict)
+
     add_all_requests(requests, log_file_name, rtype)
     add_all_responses(responses, log_file_name, rtype)
 
@@ -342,7 +370,7 @@ def reappropriate(notes_file, events_file, food_file, maint_file):
 print "Starting Python script."
 
 if __name__ == '__main__':
-    if len(sys.argv) != 5:
+    if len(sys.argv) != 6:
         print "Usage: ./main.py notes_file events_file food_file main_file"
 
     else:
@@ -350,6 +378,12 @@ if __name__ == '__main__':
         events_file = sys.argv[2]
         food_file = sys.argv[3]
         maint_file = sys.argv[4]
+        farnsworth_dir = sys.argv[5]
+
+        sys.path.append(farnsworth_dir)
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "farnsworth.settings")
+
+        from legacy import models
 
         print "Starting reappropriation...."
         reappropriate(notes_file, events_file, food_file, maint_file)

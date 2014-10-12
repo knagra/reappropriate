@@ -34,15 +34,19 @@ BEGIN {
 
     gsub(/^# */, "", $0)
 
+    gsub(/</, "\&lt;")
+
     gsub(/"/, "\&quot;")
 
     # For whatever reason, tabs in the fourth entry also represent newlines.
     # So, append all entries after the fourth, separated by newline characters.
     if (NF > 4) {
-        for (i = 5; i < NF; ++i) {
+        for (i = 5; i <= NF; ++i) {
             $4 = $4 "<br />" $i
         }
     }
+
+    gsub(/<br \/>$/, "")
 
     # If the record begins the > character, it's a response to the request
     # with $1[2:] as the primary key

@@ -6,8 +6,12 @@
 
 # Run the whole program
 
+
+internal_dir="$1"
+farnsworth_dir="$2"
+
 echo "Combining files...."
-./combine_files.sh
+./combine_files.sh $internal_dir
 
 if [ -e log.txt ]
 then
@@ -25,7 +29,7 @@ echo "Done.  Processing maintenance requests...."
 ./requests.awk all_maint.txt > maint_r.txt
 
 echo "Done.  Adding Django DB entries...."
-./main.py notes_r.txt events_r.txt food_r.txt maint_r.txt
+./main.py notes_r.txt events_r.txt food_r.txt maint_r.txt $farnsworth_dir
 
 echo "Cleaning up...."
 for i in all_food.txt all_maint.txt all_events.txt all_notes.txt \
