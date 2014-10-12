@@ -4,8 +4,8 @@
 Karandeep Singh Nagra
 
 ## Description
-A small application to migrate
-<a href="https://kingmanhall.org">Kingman Hall</a>'s legacy data to
+A small application to reappropirate
+<a href="https://kingmanhall.org">Kingman Hall</a>'s legacy data for use by
 <a href="https://github.com/knagra/farnsworth">Farnsworth</a>.
 
 ## Usage

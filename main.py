@@ -371,7 +371,8 @@ print "Starting Python script."
 
 if __name__ == '__main__':
     if len(sys.argv) != 6:
-        print "Usage: ./main.py notes_file events_file food_file main_file"
+        print "Usage: ./main.py notes_file events_file food_file"\
+            " main_file farnsworth_dir"
 
     else:
         notes_file = sys.argv[1]
