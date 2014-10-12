@@ -32,6 +32,8 @@ BEGIN {
         next
     }
 
+    gsub(/^# */, "", $0)
+
     gsub(/"/, "\&quot;")
 
     # For whatever reason, tabs in the fourth entry also represent newlines.

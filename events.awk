@@ -31,13 +31,15 @@ BEGIN {
         next
     }
 
+    gsub(/^# */, "", $0)
+
     gsub(/"/, "\&quot;")
 
     # For whatever reason, tabs in the fourth entry also represent newlines.
     # So, append all entries after the fourth, separated by newline characters.
-    if (NF > 4) {
-        for (i = 5; i < NF; ++i) {
-            $4 = $4 "<br />" $i
+    if (NF > 3) {
+        for (i = 4; i < NF; ++i) {
+            $3 = $3 "<br />" $i
         }
     }
 

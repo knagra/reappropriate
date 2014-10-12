@@ -31,14 +31,23 @@ BEGIN {
         next
     }
 
+    gsub(/^# */, "", $0)
+
+    gsub(/made me cry. :\\/, "made me cry. :\\\\", $0)
+
     gsub(/"/, "\&quot;")
 
     # For whatever reason, tabs in the fourth entry also represent newlines.
     # So, append all entries after the fourth, separated by newline characters.
-    if (NF > 4) {
-        for (i = 5; i < NF; ++i) {
-            $4 = $4 "<br />" $i
+    if (NF > 3) {
+        for (i = 4; i < NF; ++i) {
+            $3 = $3 "<br />" $i
         }
+    }
+
+    if (match($0, /ORANGEE/)) {
+        getline truncated_line
+        $3 = substr($3,0,25) substr(truncated_line,2)
     }
 
     print "{'timestamp': \"" $1 "\", 'name': \"" $2 "\", 'body': \"" $3 "\"}"
