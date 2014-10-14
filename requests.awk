@@ -46,7 +46,7 @@ BEGIN {
         }
     }
 
-    gsub(/<br \/>$/, "")
+    gsub(/<br \/>$/, "", $0)
 
     # If the record begins the > character, it's a response to the request
     # with $1[2:] as the primary key
