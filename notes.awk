@@ -33,11 +33,11 @@ BEGIN {
 
     gsub(/^# */, "", $0)
 
-    gsub(/\\/, "\&#92;")
+    gsub(/\\/, "\&#92;", $0)
 
-    gsub(/</, "\&lt;")
+    gsub(/</, "\&lt;", $0)
 
-    gsub(/"/, "\&quot;")
+    gsub(/"/, "\&quot;", $0)
 
     # For whatever reason, tabs in the fourth entry also represent newlines.
     # So, append all entries after the fourth, separated by newline characters.
@@ -47,7 +47,7 @@ BEGIN {
         }
     }
 
-    gsub(/<br \/>$/, "")
+    gsub(/<br \/>$/, "", $0)
 
     if (match($0, /ORANGEE/)) {
         getline truncated_line
