@@ -34,9 +34,9 @@ BEGIN {
 
     gsub(/^# */, "", $0)
 
-    gsub(/</, "\&lt;")
+    gsub(/</, "\&lt;", $0)
 
-    gsub(/"/, "\&quot;")
+    gsub(/"/, "\&quot;", $0)
 
     # For whatever reason, tabs in the fourth entry also represent newlines.
     # So, append all entries after the fourth, separated by newline characters.
