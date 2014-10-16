@@ -8,7 +8,7 @@
 # Process requests files.  Create a Python dictionary for each entry.
 
 # To call this script, execute:
-# ./food.awk ../all_food.txt > food_r.txt
+# ./requests.awk ../all_food.txt > food_r.txt
 
 # Set the field separator to the tab character
 # This will make the fields:
