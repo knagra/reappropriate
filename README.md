@@ -4,7 +4,7 @@
 Karandeep Singh Nagra
 
 ## Description
-A small application to reappropirate
+A small application to reappropriate
 <a href="https://kingmanhall.org">Kingman Hall</a>'s legacy data for use by
 <a href="https://github.com/knagra/farnsworth">Farnsworth</a>.
 
